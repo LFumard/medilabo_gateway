@@ -11,10 +11,6 @@ spring:
           predicates :
             - Path= /service_note/**
         - id: r3
-          uri: http://localhost:8090
-          predicates:
-            - Path= /**
-        - id: r4
           uri: http://localhost:8083
           predicates:
             - Path= /assessment/**
