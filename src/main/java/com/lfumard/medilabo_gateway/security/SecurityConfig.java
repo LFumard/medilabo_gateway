@@ -56,6 +56,7 @@ public class SecurityConfig  {
         http.csrf(csrf -> csrf.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .formLogin(f->f.disable())
                 //.addFilterBefore(authenticationJwtTokenFilter, AuthTokenFilter.class)
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()

@@ -2,6 +2,7 @@ package com.lfumard.medilabo_gateway.security.jwt;
 
 //import com.LFumard.medilabo.security;
 import com.lfumard.medilabo_gateway.security.jwt.JwtUtils;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 //@RefreshScope
@@ -40,7 +42,10 @@ public class AuthTokenFilter  extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String jwt = parseJwt(request);
-        jwtUtils.validateJwtToken(jwt);
+        Claims body = jwtUtils.validateJwtToken(jwt);
+        String strSubjet = body.getSubject();
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(strSubjet, null, new ArrayList<>());
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
         filterChain.doFilter(request, response);
     }
