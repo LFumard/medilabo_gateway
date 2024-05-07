@@ -26,7 +26,8 @@ spring:
         - id : r4
           uri : http://localhost:8081
           predicates :
-            - Path= /api/auth/*
+            - Path= /api/auth/**
+
 application:
   name: medilabo_gateway
 medilabo:
