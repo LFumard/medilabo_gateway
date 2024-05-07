@@ -4,10 +4,12 @@ import com.lfumard.medilabo_gateway.security.jwt.AuthEntryPointJwt;
 import com.lfumard.medilabo_gateway.security.jwt.AuthTokenFilter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -17,10 +19,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
+import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
@@ -30,17 +37,12 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 //public class SecurityConfig extends websecurityconfigureradapter {
 public class SecurityConfig  {
 
-
-
     @Autowired
     private AuthTokenFilter authenticationJwtTokenFilter;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
-    @Bean(name = "mvcHandlerMappingIntrospector")
-    public HandlerMappingIntrospector mvcHandlerMappingIntrospector() {
-        return new HandlerMappingIntrospector();
-    }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
@@ -61,7 +63,8 @@ public class SecurityConfig  {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 //.requestMatchers("/api/test/**").permitAll()
-                                .anyRequest().authenticated()
+                                //.anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 );
 
         //http.authenticationProvider(authenticationProvider());
@@ -71,4 +74,5 @@ public class SecurityConfig  {
 
         return http.build();
     }
+
 }

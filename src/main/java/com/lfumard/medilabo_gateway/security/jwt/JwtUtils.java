@@ -64,8 +64,9 @@ public class JwtUtils {
 
     public Claims validateJwtToken(String authToken) {
         try {
-
+            byte[] secret = authToken.getBytes();
             return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(authToken).getBody();
+            //return Jwts.parser().setSigningKey(jwtSecret.getBytes()).parseClaimsJws(authToken).getBody();
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {

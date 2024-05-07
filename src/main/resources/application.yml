@@ -6,18 +6,35 @@ spring:
           uri : http://localhost:8081
           predicates :
             - Path= /patient/**
+          filters:
+            - AuthenticationFilter
+
         - id : r2
           uri : http://localhost:8082
           predicates :
             - Path= /service_note/**
+          filters:
+            - AuthenticationFilter
+
         - id: r3
           uri: http://localhost:8083
           predicates :
             - Path= /assessment/**
+          filters:
+            - AuthenticationFilter
+
         - id : r4
           uri : http://localhost:8081
           predicates :
-            - Path= /api/auth/*            -
+            - Path= /api/auth/*
+application:
+  name: medilabo_gateway
+medilabo:
+  app:
+    jwtCookieName: medilabo
+    jwtSecret: mmmmmmmmmmmmmmmmmmmmmmmmmmmedilabo=Springggggggggggggggggggggggg
+    jwtExpirationMs: 86400000
+
 management:
   endpoints:
     web:

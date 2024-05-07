@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 
 //@RefreshScope
-@Order(Integer.MIN_VALUE)
+//@Order(Integer.MIN_VALUE)
 @Component
 public class AuthTokenFilter  extends OncePerRequestFilter {
 
