@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  patient-info-service:
+    container_name: medilabo_patient
+    build:
+      context: ../medilabo_patient
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/medilabo
+      - SPRING_DATASOURCE_PASSWORD=Medilabo01!
+      - MYSQL_DATABASE=medilabo
+      - MEDILABO_APP_JWTCOOKIENAME=medilabo
+      - MEDILABO_APP_JWTSECRET=mmmmmmmmmmmmmmmmmmmmmmmmmmmedilabo=Springggggggggggggggggggggggg
+      - MEDILABO_APP_JWTEXPIRATIONMS=86400000
+    networks:
+      - bridge
+    depends_on:
+      - mysql
+
+  patient-note-service:
+    container_name: medilabo_note
+    build:
+      context: ../medilabo_note
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/Patient_note
+    networks:
+      - bridge
+    depends_on:
+      - mongo
+
+  patient-report-service:
+    container_name: medilabo_assessment
+    build:
+      context: ../medilabo_assessment
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      - MEDILABO_GATEWAY_URL=http://gateway:8888
+    networks:
+      - bridge
+
+  patient-ui:
+    container_name: medilabo_ui
+    build:
+      context: ../medilabo_ui
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    environment:
+      - MEDILABO_GATEWAY_URL=http://gateway:8888
+    networks:
+      - bridge
+    depends_on:
+      - gateway
+
+  gateway:
+    container_name: medilabo_gateway
+    build:
+      context: ../medilabo_gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    environment:
+      - MEDILABO_APP_JWTCOOKIENAME=medilabo
+      - MEDILABO_APP_JWTSECRET=mmmmmmmmmmmmmmmmmmmmmmmmmmmedilabo=Springggggggggggggggggggggggg
+      - MEDILABO_APP_JWTEXPIRATIONMS=86400000
+      - PATIENTSERVICE_URL=http://patient-info-service:8081
+      - PATIENTNOTESERVICE_URL=http://patient-note-service:8082
+      - PATIENTASSESSMENTSERVICE_URL=http://patient-report-service:8083
+    networks:
+      - bridge
+    depends_on:
+      - patient-info-service
+      - patient-note-service
+      - patient-report-service
+
+  mysql:
+    container_name: mysqldb
+    build:
+      context: ../medilabo_patient
+      dockerfile: Dockerfile_MySql
+    ports:
+      - "3307:3306"
+    networks:
+      - bridge
+
+  mongo:
+    container_name: mongodb
+    build:
+      context: ../medilabo_note
+      dockerfile: Dockerfile_Mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - bridge
+
+networks:
+  bridge:
+    driver: bridge

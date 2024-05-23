@@ -3,28 +3,28 @@ spring:
     gateway:
       routes:
         - id : r1
-          uri : http://localhost:8081
+          uri : ${patientservice.url}
           predicates :
             - Path= /patient/**
           filters:
             - AuthenticationFilter
 
         - id : r2
-          uri : http://localhost:8082
+          uri : ${patientnoteservice.url}
           predicates :
             - Path= /service_note/**
           filters:
             - AuthenticationFilter
 
         - id: r3
-          uri: http://localhost:8083
+          uri: ${patientassessmentservice.url}
           predicates :
             - Path= /assessment/**
           filters:
             - AuthenticationFilter
 
         - id : r4
-          uri : http://localhost:8081
+          uri : ${patientservice.url}
           predicates :
             - Path= /api/auth/**
 
