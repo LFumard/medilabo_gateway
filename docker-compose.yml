@@ -57,8 +57,6 @@ services:
       - MEDILABO_GATEWAY_URL=http://gateway:8888
     networks:
       - bridge
-    depends_on:
-      - gateway
 
   gateway:
     container_name: medilabo_gateway
@@ -80,6 +78,7 @@ services:
       - patient-info-service
       - patient-note-service
       - patient-report-service
+      - patient-ui
 
   mysql:
     container_name: mysqldb
