@@ -80,6 +80,16 @@ services:
       - patient-report-service
       - patient-ui
 
+  mongo:
+    container_name: mongodb
+    build:
+      context: ../medilabo_note
+      dockerfile: Dockerfile_Mongodb.js
+    ports:
+      - "27017:27017"
+    networks:
+      - bridge
+
   mysql:
     container_name: mysqldb
     build:
@@ -87,16 +97,6 @@ services:
       dockerfile: Dockerfile_MySql
     ports:
       - "3307:3306"
-    networks:
-      - bridge
-
-  mongo:
-    container_name: mongodb
-    build:
-      context: ../medilabo_note
-      dockerfile: Dockerfile_Mongodb
-    ports:
-      - "27017:27017"
     networks:
       - bridge
 
