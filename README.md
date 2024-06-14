@@ -23,10 +23,10 @@ Le microservice Medilabo_Patient communique avec le SGBDR MySQL, MongoDB est uti
 
 ![img.png](img.png)
 
-- Lien Medilabo_Patient : addMedilabo_Patient
-- Lien Medilabo_Note : addMedilabo_Note
-- Lien Medilabo_Assessment : addMedilabo_Assessment
-- Lien Medilabo_UI : addMedilabo_UI
+- Lien Medilabo_Patient : https://github.com/LFumard/medilabo_patient
+- Lien Medilabo_Note : https://github.com/LFumard/medilabo_note
+- Lien Medilabo_Assessment : https://github.com/LFumard/medilabo_assessment
+- Lien Medilabo_UI : https://github.com/LFumard/medilabo_ui
 
 ## Execution
 - Après lancement de docker, la construction et le démarrage du conteneur s'effectue via la commande `docker-compose up --build`
