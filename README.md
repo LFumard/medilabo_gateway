@@ -1,6 +1,6 @@
 # Medilabo
 
-Medilabo est une application à destination des médecins pour aider à détecter le diabète de type 2. 
+Medilabo est une application à destination des praticiens pour aider à détecter le diabète de type 2. 
 
 L’application permet :
 - d’enregistrer les données démographiques (nom, âge) des patients
